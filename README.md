@@ -16,6 +16,73 @@ We want to establish this database because there is a shift in the field towards
 
 ## Installation
 
+This repository uses **conda + conda-lock** for a fully reproducible environment across macOS, Linux, and Windows.
+
+
+### 1. Choose your tool
+
+You can use either **conda** or the faster alternative **micromamba**.
+
+### 2. Create the environment
+
+#### Option A — using conda
+```bash
+# Install conda-lock
+
+# Create environment from lockfile
+conda create --name hackathon --file conda-lock.yml
+
+# Or directly from the environment.yml (w/o lockfile)
+conda env create -f environment.yml
+
+# Activate
+conda activate hackathon
+```
+#### Option B — using micromamba (recommended)
+##### Install micromamba (if not installed)
+```bash
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+export PATH=$PWD/bin:$PATH
+```
+
+##### Create environment
+```bash
+micromamba create -n hackathon -f conda-lock.yml
+micromamba activate hackathon
+```
+
+If you are getting `'micromamba' is running as a subprocess and can't modify the parent shell.` error you should run the following commands before activating the environment:
+```bash
+micromamba shell init --shell bash --root-prefix=~/.local/share/mamba
+source ~/.bashrc
+```
+
+### 3. Install PyTorch
+
+We don’t include PyTorch in the lockfile (to avoid GPU/CPU conflicts).
+Please install one of the following fixed versions after activating your environment:
+
+#### CPU version
+##### Conda
+```bash
+conda install pytorch=2.4.1 torchvision=0.19.1 cpuonly -c pytorch -c conda-forge
+```
+
+##### Micromamba
+```bash
+micromamba install pytorch=2.4.1 torchvision=0.19.1 cpuonly -c pytorch -c conda-forge
+```
+
+#### GPU version (CUDA 12.4)
+##### Conda
+```bash
+conda install pytorch=2.4.1 torchvision=0.19.1 pytorch-cuda=12.4 -c pytorch -c nvidia -c conda-forge
+```
+
+##### Micromamba
+```bash
+micromamba install pytorch=2.4.1 torchvision=0.19.1 pytorch-cuda=12.4 -c pytorch -c nvidia -c conda-forge
+```
 
 ## Project Structure
 
@@ -25,4 +92,6 @@ biohack2025/
 ├── models/             # Trained models and model artifacts
 ├── notebooks/          # Jupyter notebooks for analysis
 ├── src/                # Source code modules
-└── tests/              # Test files
+├── tests/              # Test files
+└── environment.yml     # Project dependencies
+
