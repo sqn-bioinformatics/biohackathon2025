@@ -13,6 +13,7 @@ We want to establish this database because there is a shift in the field towards
 - Tess Afanasyeva
 - Marina Pominova
 - Cecilia Lindskog
+- Mahfouz Shehu
 
 ## Installation
 
