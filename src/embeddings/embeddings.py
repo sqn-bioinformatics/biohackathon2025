@@ -8,8 +8,10 @@ from transformers import AutoModel, AutoTokenizer
 
 class Embedder:
     def __init__(self, model_name: str, device: str | torch.device = None):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
-        self.model = AutoModel.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name, use_fast=True, local_file_only=True
+        )
+        self.model = AutoModel.from_pretrained(model_name, local_files_only=True)
         self.device = (
             torch.device(device)
             if device
@@ -101,7 +103,7 @@ class Embedder:
         overlap: int = 128,
         batch_size: int = 8,
         aggregate: str = "none",  # "none" | "mean" | "max"
-    ) -> np.ndarray:
+    ) -> tuple[list[str], np.ndarray]:
         """
         Embeds long text by sliding-window tokenization with overlap.
         Returns:
@@ -114,9 +116,13 @@ class Embedder:
 
         # Simple batching
         all_vecs = []
+        segment_strings = []
         for i in range(0, len(windows), batch_size):
             batch = {"input_ids": [], "attention_mask": []}
             for w in windows[i : i + batch_size]:
+                segment_strings.append(
+                    self.tokenizer.decode(w["input_ids"], skip_special_tokens=True)
+                )
                 batch["input_ids"].append(w["input_ids"])
                 batch["attention_mask"].append(w["attention_mask"])
             vecs = self._embed_batch(batch)
@@ -129,11 +135,11 @@ class Embedder:
         )
 
         if aggregate == "none":
-            return chunk_embeddings
+            return segment_strings, chunk_embeddings
 
         if aggregate == "mean":
-            return chunk_embeddings.mean(axis=0)
+            return segment_strins, chunk_embeddings.mean(axis=0)
         elif aggregate == "max":
-            return chunk_embeddings.max(axis=0)
+            return segment_strings, chunk_embeddings.max(axis=0)
         else:
             raise ValueError("aggregate must be one of {'none','mean','max'}")
