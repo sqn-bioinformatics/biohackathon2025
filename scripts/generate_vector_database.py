@@ -21,16 +21,21 @@ def main():
     )
     args = parser.parse_args()
 
-    articles_dir = args.articles_dir if args.articles_dir is not None else dirname(join("data", "europepmc_articles"))
-    db_path = args.db_path if args.db_path is not None else dirname(join("data", "database"))
+    articles_dir = args.articles_dir if args.articles_dir is not None else join(dirname(dirname(__file__)), "data", "europepmc_articles")
+    db_path = args.db_path if args.db_path is not None else join(dirname(dirname(__file__)), "data", "database")
 
-    # json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
+    json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
     embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
     vectordb = VectorDB(db_path=db_path, embedder=embedder)
-    print(tuple(pathlib.Path(articles_dir).glob("*.json")))
-    for file in tqdm(pathlib.Path(articles_dir).glob("*.json")):
-        with file.open() as fp:
-            json_data = json.load(fp)
+    print("json_files", json_files)
+    for file in tqdm(json_files):
+        with file.open(encoding='utf-8') as fp:
+            try:
+                json_data = json.load(fp)
+            except UnicodeError:
+                print("UnicodeError:", fp)
+                continue
+
             if "body" in json_data and "pmid" in json_data and json_data["body"]:
                 mesh_terms = []
                 try:
