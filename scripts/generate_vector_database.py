@@ -1,7 +1,7 @@
 import argparse
 import json
 import pathlib
-from os.path import join, dirname
+from os.path import dirname, join
 from pprint import pp
 
 from embeddings import Embedder
@@ -21,15 +21,23 @@ def main():
     )
     args = parser.parse_args()
 
-    articles_dir = args.articles_dir if args.articles_dir is not None else join(dirname(dirname(__file__)), "data", "europepmc_articles")
-    db_path = args.db_path if args.db_path is not None else join(dirname(dirname(__file__)), "data", "database")
+    articles_dir = (
+        args.articles_dir
+        if args.articles_dir is not None
+        else join(dirname(dirname(__file__)), "data", "europepmc_articles")
+    )
+    db_path = (
+        args.db_path
+        if args.db_path is not None
+        else join(dirname(dirname(__file__)), "data", "database")
+    )
 
     json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
     embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
     vectordb = VectorDB(db_path=db_path, embedder=embedder)
 
     for file in tqdm(json_files):
-        with file.open(encoding='utf-8') as fp:
+        with file.open(encoding="utf-8") as fp:
             try:
                 json_data = json.load(fp)
             except UnicodeError:
