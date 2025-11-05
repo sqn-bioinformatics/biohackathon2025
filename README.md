@@ -26,6 +26,12 @@ You can use either **conda** or the faster alternative **micromamba**.
 
 ### 2. Create the environment
 
+
+#### Option 0 — (Windows only) Install and run all tests
+```bash 
+.\install_and_run_tests.ps1
+```
+
 #### Option A — using conda
 ```bash
 # Install conda-lock
