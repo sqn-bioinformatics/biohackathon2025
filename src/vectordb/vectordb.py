@@ -90,14 +90,15 @@ class VectorDB:
         """
         # Prefer metadata filter to avoid having to reconstruct the ID outside
         res = self.collection.get(
-            where={"pubmed_id": pubmed_id, "segment": int(segment_number)},
-            include=["embeddings", "metadata"],
+            where={"$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]},
+            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas],
             limit=1,
         )
-        embs = res.get("embeddings") or []
-        if not embs:
+        embs = res.get("embeddings")
+
+        if embs.shape[0] == 0:
             return None
-        return np.array(embs[0], dtype=np.float32)
+        return embs[0]
 
     def get_article_vectors(self, pubmed_id: int) -> Optional[np.ndarray]:
         """
@@ -106,25 +107,26 @@ class VectorDB:
         """
         res = self.collection.get(
             where={"pubmed_id": pubmed_id},
-            include=["embeddings", "metadata"],
+            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas], #"embeddings", "metadata"],
         )
-        embs = res.get("embeddings") or []
-        metas = res.get("metadata") or []
+        # print(res.keys())
+        embs = res.get("embeddings")
+        metas = res.get("metadatas")
 
-        if not embs:
+        if embs.shape[0] == 0 or metas is None:
             return None
 
         # Sort by segment to ensure deterministic order
         order = np.argsort([m.get("segment", 0) for m in metas])
-        embs_sorted: Iterable[list[float]] = [embs[i] for i in order]
-        return np.asarray(list(embs_sorted), dtype=np.float32)
+        embs_sorted = embs[order]
+        return embs_sorted
 
     def delete_article(self, pubmed_id: int) -> int:
         """
         Delete all segments for an article. Returns number of deleted items.
         """
         res = self.collection.get(where={"pubmed_id": pubmed_id}, include=["metadata"])
-        ids = res.get("ids") or []
-        if ids:
+        ids = res.get("ids")
+        if len(ids) > 0:
             self.collection.delete(ids=ids)
         return len(ids)
