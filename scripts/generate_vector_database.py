@@ -41,8 +41,6 @@ def main():
                     and json_data["body"] \
                     and vectordb.get_article_vector(pubmed_id=int(json_data["pmid"]), segment_number=0) is None:  # Check if article already indexed for resuming
 
-                print("get_article_vectors", vectordb.get_article_vectors(pubmed_id=int(json_data["pmid"])) is None)
-
                 mesh_terms = []
                 try:
                     mesh_terms = [
