@@ -82,51 +82,6 @@ class VectorDB:
             ids=ids, embeddings=embeddings, metadatas=metadata_, documents=segments
         )
 
-    def get_article_vector(
-        self, pubmed_id: int, segment_number: int
-    ) -> Optional[np.ndarray]:
-        """
-        Retrieve a single segment embedding by (pubmed_id, segment_number).
-        """
-        # Prefer metadata filter to avoid having to reconstruct the ID outside
-        res = self.collection.get(
-            where={"$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]},
-            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas],
-            limit=1,
-        )
-        embs = res.get("embeddings")
-
-        if embs.shape[0] == 0:
-            return None
-        return embs[0]
-
-    def get_article_vectors(self, pubmed_id: int) -> Optional[np.ndarray]:
-        """
-        Retrieve all embeddings for an article, sorted by segment number.
-        Returns an array of shape (segments, hidden_dim), or None if not found.
-        """
-        res = self.collection.get(
-            where={"pubmed_id": pubmed_id},
-            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas], #"embeddings", "metadata"],
-        )
-        # print(res.keys())
-        embs = res.get("embeddings")
-        metas = res.get("metadatas")
-
-        if embs.shape[0] == 0 or metas is None:
-            return None
-
-        # Sort by segment to ensure deterministic order
-        order = np.argsort([m.get("segment", 0) for m in metas])
-        embs_sorted = embs[order]
-        return embs_sorted
-
-    def delete_article(self, pubmed_id: int) -> int:
-        """
-        Delete all segments for an article. Returns number of deleted items.
-        """
-        res = self.collection.get(where={"pubmed_id": pubmed_id}, include=["metadata"])
-        ids = res.get("ids")
-        if len(ids) > 0:
-            self.collection.delete(ids=ids)
-        return len(ids)
+    def article_exists(self, pubmed_id: int) -> bool:
+        key = f"{pubmed_id}:0"
+        return bool(self.collection.get(ids=[key])["ids"])

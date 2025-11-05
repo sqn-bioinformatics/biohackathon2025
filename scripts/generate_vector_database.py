@@ -56,10 +56,7 @@ def main():
                 "body" in json_data
                 and "pmid" in json_data
                 and json_data["body"]
-                and vectordb.get_article_vector(
-                    pubmed_id=int(json_data["pmid"]), segment_number=0
-                )
-                is None
+                and not vectordb.article_exists(json_data["pmid"])
             ):  # Check if article already indexed for resuming
                 mesh_terms = []
                 try:
