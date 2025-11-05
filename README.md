@@ -14,6 +14,7 @@ We want to establish this database because there is a shift in the field towards
 - Marina Pominova
 - Cecilia Lindskog
 - Mahfouz Shehu
+- Benjamin Gerritsen
 
 ## Installation
 
