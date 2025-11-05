@@ -33,7 +33,7 @@ def main():
     )
 
     json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
-    embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
+    embedder = Embedder("michiyasunaga/BioLinkBERT-large", device="cuda")
     vectordb = VectorDB(db_path=db_path, embedder=embedder)
 
     for file in tqdm(json_files):
