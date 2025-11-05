@@ -119,7 +119,7 @@ class Embedder:
           - if aggregate == "none": array of shape [num_chunks, hidden_size]
           - else: single vector [hidden_size]
         """
-        windows, _ = self._chunk_with_overlap(
+        windows, spans = self._chunk_with_overlap(
             text, max_tokens=max_tokens, overlap=overlap
         )
 
@@ -128,10 +128,12 @@ class Embedder:
         segment_strings = []
         for i in range(0, len(windows), batch_size):
             batch = {"input_ids": [], "attention_mask": []}
-            for w in windows[i : i + batch_size]:
-                segment_strings.append(
-                    self.tokenizer.decode(w["input_ids"], skip_special_tokens=True)
-                )
+            batch_windows = windows[i : i + batch_size]
+            batch_spans = spans[i : i + batch_size]
+
+            for w, (start, end) in zip(batch_windows, batch_spans):
+                # Extract original text chunk using character offsets
+                segment_strings.append(text[start:end])
                 batch["input_ids"].append(w["input_ids"])
                 batch["attention_mask"].append(w["attention_mask"])
             vecs = self._embed_batch(batch)
