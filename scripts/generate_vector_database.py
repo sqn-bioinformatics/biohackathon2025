@@ -1,8 +1,12 @@
+import sys
+from os.path import join, dirname
 import argparse
 import json
 import pathlib
-from os.path import dirname, join
+
 from pprint import pp
+
+sys.path.append(join(dirname(dirname(__file__)), "src"))
 
 from embeddings import Embedder
 from tqdm import tqdm

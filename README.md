@@ -27,7 +27,13 @@ You can use either **conda** or the faster alternative **micromamba**.
 ### 2. Create the environment
 
 
-#### Option 0 — (Windows only) Install and run all tests
+#### Option 0 — (Windows only) Barebones install
+##### Create python env in project directory
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+```
+##### Run install and reproduce results
 ```bash 
 .\install_and_run_tests.ps1
 ```
