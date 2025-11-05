@@ -27,7 +27,7 @@ def main():
     json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
     embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
     vectordb = VectorDB(db_path=db_path, embedder=embedder)
-    print("json_files", json_files)
+
     for file in tqdm(json_files):
         with file.open(encoding='utf-8') as fp:
             try:
@@ -36,7 +36,13 @@ def main():
                 print("UnicodeError:", fp)
                 continue
 
-            if "body" in json_data and "pmid" in json_data and json_data["body"]:
+            if "body" in json_data \
+                    and "pmid" in json_data \
+                    and json_data["body"] \
+                    and vectordb.get_article_vector(pubmed_id=int(json_data["pmid"]), segment_number=0) is None:  # Check if article already indexed for resuming
+
+                print("get_article_vectors", vectordb.get_article_vectors(pubmed_id=int(json_data["pmid"])) is None)
+
                 mesh_terms = []
                 try:
                     mesh_terms = [
