@@ -48,11 +48,15 @@ def main():
                 print("UnicodeError:", fp)
                 continue
 
-            if "body" in json_data \
-                    and "pmid" in json_data \
-                    and json_data["body"] \
-                    and vectordb.get_article_vector(pubmed_id=int(json_data["pmid"]), segment_number=0) is None:  # Check if article already indexed for resuming
-
+            if (
+                "body" in json_data
+                and "pmid" in json_data
+                and json_data["body"]
+                and vectordb.get_article_vector(
+                    pubmed_id=int(json_data["pmid"]), segment_number=0
+                )
+                is None
+            ):  # Check if article already indexed for resuming
                 mesh_terms = []
                 try:
                     mesh_terms = [
@@ -76,9 +80,15 @@ def main():
                 except KeyError:
                     print(json_data["pmid"])
                 else:
-                    vectordb.add_article_vectors(
-                        text=json_data["body"]["text"], metadata=metadata
-                    )
+                    metadata_prefix = f"""
+                    Title: {metadata.title}
+                    Authors: {metadata.authors}
+                    Year: {metadata.year}
+                    MeSH Terms: {metadata.mesh_terms}
+                    
+                    """
+                    full_text = metadata_prefix + json_data["body"]["text"]
+                    vectordb.add_article_vectors(text=full_text, metadata=metadata)
 
 
 if __name__ == "__main__":
