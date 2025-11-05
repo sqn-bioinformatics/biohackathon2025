@@ -1,4 +1,5 @@
 # vectordb.py
+import json
 from pprint import pp
 from typing import Iterable, Optional
 
