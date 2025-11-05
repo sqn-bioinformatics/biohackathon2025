@@ -1,6 +1,7 @@
 import argparse
 import json
 import pathlib
+from os.path import join, dirname
 from pprint import pp
 
 from embeddings import Embedder
@@ -20,11 +21,14 @@ def main():
     )
     args = parser.parse_args()
 
-    json_files = tuple(pathlib.Path(args.articles_dir).glob("*.json"))
-    embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
-    vectordb = VectorDB(db_path=args.db_path, embedder=embedder)
+    articles_dir = args.articles_dir if args.articles_dir is not None else dirname(join("data", "europepmc_articles"))
+    db_path = args.db_path if args.db_path is not None else dirname(join("data", "database"))
 
-    for file in tqdm(json_files):
+    # json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
+    embedder = Embedder("michiyasunaga/BioLinkBERT-base", device="cuda")
+    vectordb = VectorDB(db_path=db_path, embedder=embedder)
+    print(tuple(pathlib.Path(articles_dir).glob("*.json")))
+    for file in tqdm(pathlib.Path(articles_dir).glob("*.json")):
         with file.open() as fp:
             json_data = json.load(fp)
             if "body" in json_data and "pmid" in json_data and json_data["body"]:

@@ -8,15 +8,24 @@ from transformers import AutoModel, AutoTokenizer
 
 class Embedder:
     def __init__(self, model_name: str, device: str | torch.device = None):
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            model_name, use_fast=True, local_file_only=True
-        )
-        self.model = AutoModel.from_pretrained(model_name, local_files_only=True)
+        try:
+            # Try local files, and if not available, retry with download
+            self.model = AutoModel.from_pretrained(model_name, local_files_only=True)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                model_name, use_fast=True, local_file_only=True
+            )
+        except Exception:
+            self.model = AutoModel.from_pretrained(model_name, local_files_only=False)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                model_name, use_fast=True, local_file_only=False
+            )
+
         self.device = (
             torch.device(device)
             if device
             else torch.device("cuda" if torch.cuda.is_available() else "cpu")
         )
+        print("Running embedder on device:", self.device)
         self.model.to(self.device).eval()
 
         if hasattr(self.model.config, "max_position_embeddings"):
@@ -138,7 +147,7 @@ class Embedder:
             return segment_strings, chunk_embeddings
 
         if aggregate == "mean":
-            return segment_strins, chunk_embeddings.mean(axis=0)
+            return segment_strings, chunk_embeddings.mean(axis=0)
         elif aggregate == "max":
             return segment_strings, chunk_embeddings.max(axis=0)
         else:
