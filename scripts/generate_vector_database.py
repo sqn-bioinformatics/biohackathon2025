@@ -1,9 +1,8 @@
-import sys
-from os.path import join, dirname
 import argparse
 import json
 import pathlib
-
+import sys
+from os.path import dirname, join
 from pprint import pp
 
 sys.path.append(join(dirname(dirname(__file__)), "src"))
@@ -23,6 +22,11 @@ def main():
         default="vectors.chromadb",
         help="Path to ChromaDB store.",
     )
+    parser.add_argument(
+        "--model",
+        default="michiyasunaga/BioLinkBERT-large",
+        help="Text embedding model to be used in the database",
+    )
     args = parser.parse_args()
 
     articles_dir = (
@@ -37,7 +41,7 @@ def main():
     )
 
     json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
-    embedder = Embedder("michiyasunaga/BioLinkBERT-large", device="cuda")
+    embedder = Embedder(args.model, device="cuda")
     vectordb = VectorDB(db_path=db_path, embedder=embedder)
 
     for file in tqdm(json_files):
