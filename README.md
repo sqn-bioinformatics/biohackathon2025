@@ -16,6 +16,7 @@ We want to establish this database because there is a shift in the field towards
 - Mahfouz Shehu
 - Benjamin Gerritsen
 - Emanuel Quadros
+- Lorna Morris
 
 ## Installation
 
