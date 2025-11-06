@@ -210,9 +210,10 @@ __marimo__/
 # data files
 data/
 
-scGPT/.DS_Store
-.gitignore
+# macOS system files
 .DS_Store
-../../.DS_Store
+**/.DS_Store
+
+# Database files
 *.chromadb
 *.sqlite3
