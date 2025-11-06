@@ -94,17 +94,14 @@ class VectorDB:
             where={
                 "$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]
             },
-            include=[
-                chromadb.api.types.IncludeEnum.embeddings,
-                chromadb.api.types.IncludeEnum.metadatas,
-            ],
+            include=["embeddings", "metadatas"],
             limit=1,
         )
         embs = res.get("embeddings")
 
-        if embs.shape[0] == 0:
+        if embs is None or len(embs) == 0:
             return None
-        return embs[0]
+        return np.array(embs[0])
 
     def get_article_vectors(self, pubmed_id: int) -> Optional[np.ndarray]:
         """
@@ -113,21 +110,18 @@ class VectorDB:
         """
         res = self.collection.get(
             where={"pubmed_id": pubmed_id},
-            include=[
-                chromadb.api.types.IncludeEnum.embeddings,
-                chromadb.api.types.IncludeEnum.metadatas,
-            ],  # "embeddings", "metadata"],
+            include=["embeddings", "metadatas"],
         )
-        # print(res.keys())
         embs = res.get("embeddings")
         metas = res.get("metadatas")
 
-        if embs.shape[0] == 0 or metas is None:
+        if embs is None or len(embs) == 0 or metas is None:
             return None
 
-        # Sort by segment to ensure deterministic order
+        # Convert to numpy array and sort by segment to ensure deterministic order
+        embs_array = np.array(embs)
         order = np.argsort([m.get("segment", 0) for m in metas])
-        embs_sorted = embs[order]
+        embs_sorted = embs_array[order]
         return embs_sorted
 
     def article_exists(self, pubmed_id: int) -> bool:
