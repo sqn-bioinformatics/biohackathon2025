@@ -1,5 +1,6 @@
 # vectordb.py
 import json
+from importlib import resources
 from pprint import pp
 from typing import Any, Iterable, Optional
 
@@ -23,17 +24,18 @@ class TextMetadata(BaseModel):
 
 
 class VectorDB:
-    def __init__(self, db_path: str, embedder: Embedder | None):
+    def __init__(self):
         """Connect to existing ChromaDB or create one.
 
         :param db_path: path to db on disk
         :param embedder: optional Embedder object. If not provided, we'll use
             default.
         """
-        self.client = chromadb.PersistentClient(path=db_path)
-        self.embedder = embedder or Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
-        self.collection = self.client.get_or_create_collection(
-            name="embeddings", embedding_function=self.embedder
+        path = resources.files("vectordb") / "data/vectors.chromadb"
+        self.client = chromadb.PersistentClient(path=path)
+        self.embedder = Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
+        self.text_collection = self.client.get_or_create_collection(
+            name="text_embeddings"
         )
         self.blood_text_data = self.client.get_or_create_collection(
             name="blood_text_data_embeddings"
@@ -60,8 +62,8 @@ class VectorDB:
             distances: Optional[List[List[float]]]
             included: Include
         """
-        embeddings = self.embedder.embed_text(text)[1].tolist()
-        return self.collection.query(query_embeddings=embeddings)
+        embeddings = self.embedder.embed_text(text)[1].mean(axis=0).tolist()
+        return self.text_collection.query(query_embeddings=[embeddings])
 
     @staticmethod
     def _sanitize_metadata(md: dict) -> dict:
@@ -97,10 +99,11 @@ class VectorDB:
         # Build stable string IDs; metadata carries both pubmed_id and segment number
         ids = [f"{metadata.pubmed_id}:{i}" for i in range(n_segments)]
         metadata_ = [{**base_md, "segment": i} for i in range(n_segments)]
+        print(vectors.shape)
         embeddings = vectors.tolist()
 
         # Use upsert so re-running doesn't raise on existing IDs
-        self.collection.upsert(
+        self.text_collection.upsert(
             ids=ids, embeddings=embeddings, metadatas=metadata_, documents=segments
         )
 
@@ -111,7 +114,7 @@ class VectorDB:
         Retrieve a single segment embedding by (pubmed_id, segment_number).
         """
         # Prefer metadata filter to avoid having to reconstruct the ID outside
-        res = self.collection.get(
+        res = self.text_collection.get(
             where={
                 "$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]
             },
@@ -129,7 +132,7 @@ class VectorDB:
         Retrieve all embeddings for an article, sorted by segment number.
         Returns an array of shape (segments, hidden_dim), or None if not found.
         """
-        res = self.collection.get(
+        res = self.text_collection.get(
             where={"pubmed_id": pubmed_id},
             include=["embeddings", "metadatas"],
         )
@@ -153,7 +156,7 @@ class VectorDB:
         article as a list.
         """
         # Get all data from the collection
-        res = self.collection.get(include=["embeddings", "metadatas"])
+        res = self.text_collection.get(include=["embeddings", "metadatas"])
 
         embs = res.get("embeddings")
         metas = res.get("metadatas")
@@ -185,4 +188,4 @@ class VectorDB:
 
     def article_exists(self, pubmed_id: int) -> bool:
         key = f"{pubmed_id}:0"
-        return bool(self.collection.get(ids=[key])["ids"])
+        return bool(self.text_collection.get(ids=[key])["ids"])

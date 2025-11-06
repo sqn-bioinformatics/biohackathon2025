@@ -36,8 +36,8 @@ class Embedder(EmbeddingFunction):
 
         self.max_len_default = min(self.max_len_default, 512)
 
-    def __call__(self, input: Documents) -> tuple[list[str], np.ndarray]:
-        embeddings = [self.embed_text(doc) for doc in input]
+    def __call__(self, input: Documents) -> Embeddings:
+        embeddings = [self.embed_text(doc)[1].max(axis=0) for doc in input]
         return embeddings
 
     def _chunk_with_overlap(

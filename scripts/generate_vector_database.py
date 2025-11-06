@@ -7,7 +7,6 @@ from pprint import pp
 
 sys.path.append(join(dirname(dirname(__file__)), "src"))
 
-from embeddings import Embedder
 from tqdm import tqdm
 from vectordb import TextMetadata, VectorDB
 
@@ -17,16 +16,6 @@ def main():
     parser.add_argument(
         "--articles-dir", default=None, help="Path to europepmc_articles directory"
     )
-    parser.add_argument(
-        "--db_path",
-        default="vectors.chromadb",
-        help="Path to ChromaDB store.",
-    )
-    parser.add_argument(
-        "--model",
-        default="michiyasunaga/BioLinkBERT-large",
-        help="Text embedding model to be used in the database",
-    )
     args = parser.parse_args()
 
     articles_dir = (
@@ -34,15 +23,9 @@ def main():
         if args.articles_dir is not None
         else join(dirname(dirname(__file__)), "data", "europepmc_articles")
     )
-    db_path = (
-        args.db_path
-        if args.db_path is not None
-        else join(dirname(dirname(__file__)), "data", "database")
-    )
 
     json_files = tuple(pathlib.Path(articles_dir).glob("*.json"))
-    embedder = Embedder(args.model, device="cuda")
-    vectordb = VectorDB(db_path=db_path, embedder=embedder)
+    vectordb = VectorDB()
 
     for file in tqdm(json_files):
         with file.open(encoding="utf-8") as fp:
