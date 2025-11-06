@@ -15,6 +15,7 @@ We want to establish this database because there is a shift in the field towards
 - Cecilia Lindskog
 - Mahfouz Shehu
 - Benjamin Gerritsen
+- Emanuel Quadros
 
 ## Installation
 
