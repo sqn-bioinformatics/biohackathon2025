@@ -77,6 +77,7 @@ def main():
                         year=json_data["pubYear"],
                         license=json_data.get("license") or "",
                         mesh_terms=",".join(mesh_terms),
+                        abstract=json_data.get("abstract", ""),
                     )
                 except KeyError:
                     print(json_data["pmid"])
@@ -86,6 +87,7 @@ def main():
                     Authors: {metadata.authors}
                     Year: {metadata.year}
                     MeSH Terms: {metadata.mesh_terms}
+                    Abstract: {metadata.abstract}
                     
                     """
                     full_text = metadata_prefix + json_data["body"]["text"]
