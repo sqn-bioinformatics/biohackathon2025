@@ -22,10 +22,12 @@ class TextMetadata(BaseModel):
 
 
 class VectorDB:
-    def __init__(self, db_path: str, embedder: Embedder | None):
-        # Persistent on-disk client (0.4+/0.5+ style)
+    def __init__(self, db_path: str, embedder: Embedder | None = None):
         self.client = chromadb.PersistentClient(path=db_path)
         self.collection = self.client.get_or_create_collection(name="embeddings")
+        self.blood_text_data = self.client.get_or_create_collection(
+            name="blood_text_data_embeddings"
+        )
         self.embedder = embedder or Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
 
     @staticmethod
@@ -81,6 +83,25 @@ class VectorDB:
         # Use upsert so re-running doesn't raise on existing IDs
         self.collection.upsert(
             ids=ids, embeddings=embeddings, metadatas=metadata_, documents=segments
+        )
+
+    def add_blood_text_data(self, metadata: dict[str, str], body: str) -> None:
+        payload = f"""
+        Metadata: {str(metadata)}
+        Data: {body}
+        """
+        segments, vectors = self.embedder.embed_text(text=body)
+        vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
+        n_segments = vectors.shape[0]
+
+        ids = [str(hash(segment)) for segment in segments]
+        embeddings = vectors.tolist()
+
+        self.blood_text_data.add(
+            ids=ids,
+            embeddings=embeddings,
+            metadatas=[metadata] * len(ids),
+            documents=segments,
         )
 
     def get_article_vector(

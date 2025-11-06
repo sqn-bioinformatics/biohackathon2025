@@ -24,20 +24,28 @@ def create_document_jsons(adata_dict):
             # print("Genes:", len(row.var['index'].values), row.var['index'].values)
 
             # Obtain all celltypes
-            celltype = row.obs['cell_type'].values[0]
+            celltype = row.obs["cell_type"].values[0]
             celltypes[celltype] = 0
 
-            row_metadata = dict(zip(list(row.obs.keys()), row.obs.values[0]))  # celltype and lineage
+            row_metadata = dict(
+                zip(list(row.obs.keys()), row.obs.values[0])
+            )  # celltype and lineage
             row_metadata["type"] = "dataset"
             row_metadata["dataset_name"] = dataset_name
-            row_metadata["dataset_description"] = \
-                "This is a row from a dataset about Celltypes, their correpsonding lineages " \
+            row_metadata["dataset_description"] = (
+                "This is a row from a dataset about Celltypes, their correpsonding lineages "
                 "and their corresponding gene counts. "
+            )
             # TODO: Use Lornas mappings to convert the celltype to synonims and ontologies and add these to the meta data
             # row_metadata["meshterms"] =
             # row_metadata["ontology_tree"] =
 
-            row_genes = dict(zip(row.var['index'].values, np.array(row.X[0].data).astype(np.int64).tolist()))
+            row_genes = dict(
+                zip(
+                    row.var["index"].values,
+                    np.array(row.X[0].data).astype(np.int64).tolist(),
+                )
+            )
             for key in list(row_genes.keys()):
                 if row_genes[key] == 0:
                     del row_genes[key]
@@ -52,7 +60,6 @@ def create_document_jsons(adata_dict):
             # license = json_data.get("license") or "",
             # mesh_terms = ",".join(mesh_terms),
 
-
             document = {
                 "metadata": {
                     "pubmed_id": None,
@@ -63,11 +70,21 @@ def create_document_jsons(adata_dict):
                     "year": None,
                     "license": None,
                     "mesh_terms": None,
-                    "dataset_meta": json.dumps(row_metadata)},
-                "body": json.dumps(row_genes)}
+                    "dataset_meta": row_metadata,
+                },
+                "body": json.dumps(row_genes),
+            }
             documents.append(document)
 
-    print("kept", num_genes_kept, "out of", num_genes, "so", (num_genes_kept / num_genes) * 100, "%")
+    print(
+        "kept",
+        num_genes_kept,
+        "out of",
+        num_genes,
+        "so",
+        (num_genes_kept / num_genes) * 100,
+        "%",
+    )
 
     print("celltypes", len(list(celltypes.keys())), list(celltypes.keys()))
 

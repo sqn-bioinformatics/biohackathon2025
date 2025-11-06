@@ -1,15 +1,15 @@
-import time
-
-import sys
 import json
+import sys
+import time
+from importlib import resources
 
 import numpy as np
 import torch
 from tqdm import tqdm
+from vectordb import VectorDB
 
 from hpa_embeddings.funcs.create_jsons import create_document_jsons
 from hpa_embeddings.funcs.load_datasets import load_datasets
-from hpa_embeddings.funcs.insert_into_db import insert_into_db
 
 print(torch.__version__)
 
@@ -28,16 +28,16 @@ except ImportError:
 
 sys.path.insert(0, "../")
 
+VDB_PATH = resources.files("vectordb") / "data/vectors.chromadb"
+vdb = VectorDB(db_path=VDB_PATH)
 
 adata_dict, gene_col = load_datasets()
 documents = create_document_jsons(adata_dict)
-insert_into_db(documents)
 
-
-time.sleep(10)
+for doc in tqdm(documents):
+    vdb.add_blood_text_data(metadata=doc["metadata"]["dataset_meta"], body=doc["body"])
 
 
 # TODO: drop percentage of genes that make up below a threshold percentage of the total gene counts
 # TODO: instead of indexing every singlerow of every database only index the database and then have a separate vector database for retrieving the specific row
 #   such that the anndata can remain together and sparse
-
