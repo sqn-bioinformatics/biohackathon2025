@@ -107,6 +107,25 @@ class VectorDB:
             ids=ids, embeddings=embeddings, metadatas=metadata_, documents=segments
         )
 
+    def add_blood_text_data(self, metadata: dict[str, str], body: str) -> None:
+        payload = f"""
+        Metadata: {str(metadata)}
+        Data: {body}
+        """
+        segments, vectors = self.embedder.embed_text(text=body)
+        vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
+        n_segments = vectors.shape[0]
+
+        ids = [str(hash(segment)) for segment in segments]
+        embeddings = vectors.tolist()
+
+        self.blood_text_data.add(
+            ids=ids,
+            embeddings=embeddings,
+            metadatas=[metadata] * len(ids),
+            documents=segments,
+        )
+
     def get_article_vector(
         self, pubmed_id: int, segment_number: int
     ) -> Optional[np.ndarray]:

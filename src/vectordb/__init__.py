@@ -1,1 +1,3 @@
-from .vectordb import *
+from .vectordb import VectorDB
+
+__all__ = ["VectorDB"]

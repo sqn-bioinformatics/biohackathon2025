@@ -1,1 +1,3 @@
-from .embeddings import *
+from .embeddings import Embedder
+
+__all__ = ["Embedder"]

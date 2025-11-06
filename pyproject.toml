@@ -1,15 +1,20 @@
 [project]
 name = "biohackathon2025"
 version = "0.1.0"
-requires-python = "~=3.11.14"
+requires-python = ">=3.11,<3.15"
 dependencies = [
   "chromadb==1.3.2",
-  "numpy~=1.26",
+  "hnswlib>=0.8.0",
+  "numpy==2.3",
   "pydantic==2.12.3",
   "requests==2.32.5",
+  "scanpy>=1.11.5",
   "torch==2.9.0",
   "tqdm==4.67.1",
   "transformers==4.57.1",
+  "jupyter (>=1.1.1,<2.0.0)",
+  "ipykernel (>=7.1.0,<8.0.0)",
+  "pandas (>=2.3.3,<3.0.0)",
 ]
 
 [build-system]
@@ -17,7 +22,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/embeddings", "src/vectordb"]
+packages = ["src"]
+
+[tool.poetry]
+packages = [{ include = "src" }]
 
 [dependency-groups]
 dev = ["ipython-autotime>=0.3.2"]
