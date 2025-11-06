@@ -211,3 +211,5 @@ __marimo__/
 data/
 ../../.DS_Store
 .DS_Store
+*.chromadb
+*.sqlite3

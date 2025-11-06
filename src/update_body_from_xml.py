@@ -20,6 +20,7 @@ import re
 import sys
 import traceback
 import xml.etree.ElementTree as ET
+from os.path import join
 from typing import Optional
 
 
@@ -160,6 +161,17 @@ def process_xml_file(xml_path: str, articles_dir: str, dry_run: bool = False) ->
         return False
 
 
+def check_preprocessing_done(articles_dir):
+    lockpath = join(articles_dir, "preprocessing_done.lock")
+    return os.path.exists(lockpath)
+
+
+def save_preprocessing_done(articles_dir):
+    lockpath = join(articles_dir, "preprocessing_done.lock")
+    with open(lockpath, "w") as file:
+        file.write("")
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Append/update body.text in metadata JSONs from XML bodies.")
     parser.add_argument('--articles-dir', default=None, help='Path to europepmc_articles directory')
@@ -173,6 +185,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"[ERROR] Articles directory not found: {articles_dir}", file=sys.stderr)
         return 2
 
+    if check_preprocessing_done(articles_dir=articles_dir):
+        print(f"Preprocessing already done previously. Skipping.")
+        return 0
+
     successes = 0
     failures = 0
 
@@ -185,6 +201,8 @@ def main(argv: Optional[list[str]] = None) -> int:
             successes += 1
         else:
             failures += 1
+
+    save_preprocessing_done(articles_dir)
 
     print(f"Done. Success: {successes}, Failures: {failures}")
     return 0 if failures == 0 else 1
