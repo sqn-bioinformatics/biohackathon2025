@@ -5,6 +5,7 @@ from typing import Any, Iterable, Optional
 
 import chromadb
 import numpy as np
+from chromadb import QueryResult
 from embeddings import Embedder
 from pydantic import BaseModel
 
@@ -23,7 +24,12 @@ class TextMetadata(BaseModel):
 
 class VectorDB:
     def __init__(self, db_path: str, embedder: Embedder | None):
-        # Persistent on-disk client (0.4+/0.5+ style)
+        """Connect to existing ChromaDB or create one.
+
+        :param db_path: path to db on disk
+        :param embedder: optional Embedder object. If not provided, we'll use
+            default.
+        """
         self.client = chromadb.PersistentClient(path=db_path)
         self.collection = self.client.get_or_create_collection(name="embeddings")
         self.embedder = embedder or Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
@@ -38,7 +44,17 @@ class VectorDB:
             )
         return vectors
 
-    def query(self, text: str):
+    def query(self, text: str) -> QueryResult:
+        """Main entry point to the vector database. Returns a TypedDict like:
+
+        class QueryResult(TypedDict):
+            ids: List[IDs]
+            embeddings: Optional[List[Embeddings]],
+            documents: Optional[List[List[Document]]]
+            metadatas: Optional[List[List[Metadata]]]
+            distances: Optional[List[List[float]]]
+            included: Include
+        """
         embeddings = self.embedder.embed_text(text)[1].tolist()
         return self.collection.query(query_embeddings=embeddings)
 
