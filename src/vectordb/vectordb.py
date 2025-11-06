@@ -1,7 +1,7 @@
 # vectordb.py
 import json
 from pprint import pp
-from typing import Iterable, Optional
+from typing import Any, Iterable, Optional
 
 import chromadb
 import numpy as np
@@ -123,6 +123,42 @@ class VectorDB:
         order = np.argsort([m.get("segment", 0) for m in metas])
         embs_sorted = embs_array[order]
         return embs_sorted
+
+    def dump_vectors_with_mesh_terms(self) -> list[dict[str, Any]]:
+        """Retrieve all embeddings from the database, that have MeSH terms
+        associated with them, keyed by pubmed_id and segment number.
+
+        The returned dictionaries also includes the mesh terms associated with the
+        article as a list.
+        """
+        # Get all data from the collection
+        res = self.collection.get(include=["embeddings", "metadatas"])
+
+        embs = res.get("embeddings")
+        metas = res.get("metadatas")
+
+        if embs is None or len(embs) == 0 or metas is None:
+            return []
+
+        # Build list of dictionaries, filtering for non-empty mesh terms
+        result = []
+
+        for embedding, metadata in zip(embs, metas):
+            mesh_terms = metadata.get("mesh_terms", "")
+            # Filter out entries with empty or whitespace-only mesh terms
+            if mesh_terms and mesh_terms.strip():
+                # Clean up whitespace around commas
+                mesh_terms_cleaned = ",".join(term.strip() for term in mesh_terms.split(","))
+                result.append(
+                    {
+                        "pubmed_id": metadata.get("pubmed_id"),
+                        "segment": metadata.get("segment", 0),
+                        "embedding": np.array(embedding),
+                        "mesh_terms": mesh_terms_cleaned,
+                    }
+                )
+
+        return result
 
     def article_exists(self, pubmed_id: int) -> bool:
         key = f"{pubmed_id}:0"
