@@ -22,11 +22,11 @@ class TextMetadata(BaseModel):
 
 
 class VectorDB:
-    def __init__(self, db_path: str, embedder: Embedder):
+    def __init__(self, db_path: str, embedder: Embedder | None):
         # Persistent on-disk client (0.4+/0.5+ style)
         self.client = chromadb.PersistentClient(path=db_path)
         self.collection = self.client.get_or_create_collection(name="embeddings")
-        self.embedder = embedder
+        self.embedder = embedder or Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
 
     @staticmethod
     def _ensure_2d(vectors: np.ndarray) -> np.ndarray:
@@ -148,7 +148,9 @@ class VectorDB:
             # Filter out entries with empty or whitespace-only mesh terms
             if mesh_terms and mesh_terms.strip():
                 # Clean up whitespace around commas
-                mesh_terms_cleaned = ",".join(term.strip() for term in mesh_terms.split(","))
+                mesh_terms_cleaned = ",".join(
+                    term.strip() for term in mesh_terms.split(",")
+                )
                 result.append(
                     {
                         "pubmed_id": metadata.get("pubmed_id"),
