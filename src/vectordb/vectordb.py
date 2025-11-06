@@ -18,6 +18,7 @@ class TextMetadata(BaseModel):
     year: int
     license: str
     mesh_terms: str
+    abstract: str
 
 
 class VectorDB:
