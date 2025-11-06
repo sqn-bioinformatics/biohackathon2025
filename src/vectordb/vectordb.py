@@ -31,8 +31,13 @@ class VectorDB:
             default.
         """
         self.client = chromadb.PersistentClient(path=db_path)
-        self.collection = self.client.get_or_create_collection(name="embeddings")
         self.embedder = embedder or Embedder("michiyasunaga/BioLinkBERT-large", "cuda")
+        self.collection = self.client.get_or_create_collection(
+            name="embeddings", embedding_function=self.embedder
+        )
+        self.blood_text_data = self.client.get_or_create_collection(
+            name="blood_text_data_embeddings"
+        )
 
     @staticmethod
     def _ensure_2d(vectors: np.ndarray) -> np.ndarray:

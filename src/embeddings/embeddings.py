@@ -3,10 +3,11 @@ from typing import Dict, Iterable, List, Tuple
 
 import numpy as np
 import torch
+from chromadb import Documents, EmbeddingFunction, Embeddings
 from transformers import AutoModel, AutoTokenizer
 
 
-class Embedder:
+class Embedder(EmbeddingFunction):
     def __init__(self, model_name: str, device: str | torch.device = None):
         try:
             # Try local files, and if not available, retry with download
@@ -34,6 +35,10 @@ class Embedder:
             self.max_len_default = 512
 
         self.max_len_default = min(self.max_len_default, 512)
+
+    def __call__(self, input: Documents) -> tuple[list[str], np.ndarray]:
+        embeddings = [self.embed_text(doc) for doc in input]
+        return embeddings
 
     def _chunk_with_overlap(
         self,
