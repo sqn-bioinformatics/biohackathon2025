@@ -5,7 +5,7 @@ from typing import Any, Iterable, Optional
 
 import chromadb
 import numpy as np
-from embeddings import Embedder
+from src.embeddings import Embedder
 from pydantic import BaseModel
 
 

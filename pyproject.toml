@@ -10,6 +10,9 @@ dependencies = [
   "torch==2.9.0",
   "tqdm==4.67.1",
   "transformers==4.57.1",
+  "jupyter (>=1.1.1,<2.0.0)",
+  "ipykernel (>=7.1.0,<8.0.0)",
+  "pandas (>=2.3.3,<3.0.0)",
 ]
 
 [build-system]
@@ -17,7 +20,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/embeddings", "src/vectordb"]
+packages = ["src"]
+
+[tool.poetry]
+packages = [{include = "src"}]
 
 [dependency-groups]
 dev = ["ipython-autotime>=0.3.2"]
