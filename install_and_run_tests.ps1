@@ -6,6 +6,10 @@ pip install requests==2.32.5
 pip install chromadb==1.3.2
 pip install hf_xet
 
+pip install 'scanpy[leiden]'
+pip install scgpt==0.2.4
+pip install IPython
+
 # Run preprocessing
 python src/run_all.py
 # Build index
