@@ -217,3 +217,11 @@ data/
 # Database files
 *.chromadb
 *.sqlite3
+
+scGPT/.DS_Store
+scripts/vectors.chromadb/cbef8db2-7da5-4b3e-a43c-35eae8535e40/data_level0.bin
+scripts/vectors.chromadb/cbef8db2-7da5-4b3e-a43c-35eae8535e40/header.bin
+scripts/vectors.chromadb/cbef8db2-7da5-4b3e-a43c-35eae8535e40/index_metadata.pickle
+scripts/vectors.chromadb/cbef8db2-7da5-4b3e-a43c-35eae8535e40/length.bin
+scripts/vectors.chromadb/cbef8db2-7da5-4b3e-a43c-35eae8535e40/link_lists.bin
+scripts/vectors.chromadb/chroma.sqlite3
