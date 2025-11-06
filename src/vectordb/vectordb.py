@@ -90,8 +90,13 @@ class VectorDB:
         """
         # Prefer metadata filter to avoid having to reconstruct the ID outside
         res = self.collection.get(
-            where={"$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]},
-            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas],
+            where={
+                "$and": [{"pubmed_id": pubmed_id}, {"segment": int(segment_number)}]
+            },
+            include=[
+                chromadb.api.types.IncludeEnum.embeddings,
+                chromadb.api.types.IncludeEnum.metadatas,
+            ],
             limit=1,
         )
         embs = res.get("embeddings")
@@ -107,7 +112,10 @@ class VectorDB:
         """
         res = self.collection.get(
             where={"pubmed_id": pubmed_id},
-            include=[chromadb.api.types.IncludeEnum.embeddings, chromadb.api.types.IncludeEnum.metadatas], #"embeddings", "metadata"],
+            include=[
+                chromadb.api.types.IncludeEnum.embeddings,
+                chromadb.api.types.IncludeEnum.metadatas,
+            ],  # "embeddings", "metadata"],
         )
         # print(res.keys())
         embs = res.get("embeddings")
@@ -120,6 +128,7 @@ class VectorDB:
         order = np.argsort([m.get("segment", 0) for m in metas])
         embs_sorted = embs[order]
         return embs_sorted
+
     def article_exists(self, pubmed_id: int) -> bool:
         key = f"{pubmed_id}:0"
         return bool(self.collection.get(ids=[key])["ids"])
