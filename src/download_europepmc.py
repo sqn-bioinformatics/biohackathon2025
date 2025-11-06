@@ -2,6 +2,8 @@
 Script to download full text articles from Europe PMC with "blood" in title.
 Published in the last 5 years and open access.
 """
+import os
+from os.path import join
 
 import requests
 import json
@@ -131,11 +133,26 @@ def format_size(size_bytes):
     return f"{size_bytes:.2f} TB"
 
 
+def check_download_done(basepath):
+    lockpath = join(basepath, "data/europepmc_articles/download_finished.lock")
+    return os.path.exists(lockpath)
+
+
+def save_download_done(basepath):
+    lockpath = join(basepath, "data/europepmc_articles/download_finished.lock")
+    with open(lockpath, "w") as file:
+        file.write("")
+
+
 def main():
     # Create output directory
     p = Path(__file__).parent.parent
     output_dir = p / "data/europepmc_articles"
     output_dir.mkdir(exist_ok=True)
+
+    if check_download_done(basepath=p):
+        print("Download was previously completed.")
+        return
 
     # Calculate year range (last 5 years)
     current_year = datetime.now().year
@@ -223,6 +240,12 @@ def main():
         if not pmcid:
             continue
 
+        filepath = output_dir / f"{pmcid}.xml"
+        if os.path.exists(filepath):
+            # print("Article already downloaded. Proceeding to next.")
+            downloaded_count += 1
+            continue
+
         title = article.get("title", "Unknown Title")
         pub_year = article.get("pubYear", "Unknown")
         print(
@@ -235,8 +258,7 @@ def main():
 
         if full_text:
             # Save full text XML
-            filename = output_dir / f"{pmcid}.xml"
-            with open(filename, "w", encoding="utf-8") as f:
+            with open(filepath, "w", encoding="utf-8") as f:
                 f.write(full_text)
 
             # Save metadata as JSON
@@ -244,12 +266,14 @@ def main():
             with open(metadata_filename, "w", encoding="utf-8") as f:
                 json.dump(article, f, indent=2)
 
-            print(f"  ✓ Saved to {filename} ({format_size(size)})")
+            print(f"  ✓ Saved to {filepath} ({format_size(size)})")
             downloaded_count += 1
             total_downloaded_size += size
 
             # Be nice to the API
             time.sleep(0.5)
+
+    save_download_done(basepath=p)
 
     print("\n" + "=" * 60)
     print(f"Download complete!")

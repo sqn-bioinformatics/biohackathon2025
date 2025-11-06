@@ -209,7 +209,10 @@ __marimo__/
 
 # data files
 data/
+
 scGPT/.DS_Store
 .gitignore
 .DS_Store
-scGPT/.DS_Store
+../../.DS_Store
+*.chromadb
+*.sqlite3
