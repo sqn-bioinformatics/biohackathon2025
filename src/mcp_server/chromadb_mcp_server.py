@@ -1,8 +1,9 @@
 import asyncio
 import json
-from typing import Any, Optional
+from typing import Any
+
 import chromadb
-from chromadb.config import Settings
+import mcp.server.stdio
 from mcp.server import Server
 from mcp.types import (
     Resource,
@@ -11,7 +12,6 @@ from mcp.types import (
     ImageContent,
     EmbeddedResource,
 )
-import mcp.server.stdio
 
 # Initialize ChromaDB client
 # chroma_client = chromadb.Client(Settings(
