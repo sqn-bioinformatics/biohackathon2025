@@ -28,8 +28,7 @@ except ImportError:
 
 sys.path.insert(0, "../")
 
-VDB_PATH = resources.files("vectordb") / "data/vectors.chromadb"
-vdb = VectorDB(db_path=VDB_PATH)
+vdb = VectorDB()
 
 adata_dict, gene_col = load_datasets()
 documents = create_document_jsons(adata_dict)
