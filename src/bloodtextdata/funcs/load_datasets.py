@@ -1,26 +1,9 @@
-import sys
-from importlib import resources
 from os.path import dirname, join
 
 import scanpy as sc
 import torch
 
 print(torch.__version__)
-
-
-# extra dependency for similarity search
-try:
-    import hnswlib
-
-    hnswlib_imported = True
-except ImportError:
-    hnswlib_imported = False
-    print(
-        "hnswlib not installed! We highly recommend installing it for fast similarity search."
-    )
-    print("To install it, run: pip install hnswlib")
-
-sys.path.insert(0, "../")
 
 
 def load_datasets():

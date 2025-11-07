@@ -1,4 +1,5 @@
 import json
+from os.path import dirname, join
 
 import numpy as np
 from tqdm import tqdm
@@ -7,6 +8,12 @@ from bloodtextdata.funcs.dataset_metadatas import metadatas
 
 
 def create_document_jsons(adata_dict):
+    cell_ontology_filepath = join(dirname(dirname(dirname(__file__))), "celltype_mappings",
+                                  "cell_ontology_immune_cells_with_synonyms.json")
+
+    with open(cell_ontology_filepath, "r") as file:
+        cell_ontologies = json.load(file)
+
     documents = []
     lineages = dict()
     celltypes = dict()
@@ -14,7 +21,7 @@ def create_document_jsons(adata_dict):
     num_genes = 0
     for dataset_name, adata in adata_dict.items():
         num_genes += adata.X.shape[0] * adata.X.shape[1]
-        for row in tqdm(adata):
+        for row in tqdm(adata, desc="Jsonify dataset: " + dataset_name):
             # row.write('my_results.h5ad', compression="gzip")
             # print("row", row)
             # print("row.obs", list(row.obs.keys()))
@@ -38,10 +45,7 @@ def create_document_jsons(adata_dict):
                 "This is a row from a dataset about Celltypes, their corresponding lineages "
                 "and their corresponding gene counts. "
             )
-
-            # TODO: Use Lornas mappings to convert the celltype to synonims and ontologies and add these to the meta data
-            # row_metadata["meshterms"] =
-            # row_metadata["ontology_tree"] =
+            row_metadata["cell_ontology_data"] = json.dumps(cell_ontologies[celltype])
 
             row_genes = dict(
                 zip(
@@ -61,7 +65,7 @@ def create_document_jsons(adata_dict):
             # authors = json_data["authorString"],
             # year = json_data["pubYear"],
             # license = json_data.get("license") or "",
-            # mesh_terms = ",".join(mesh_terms),
+            # mesh_terms = ",".join(mesh_terms),\
 
             document = {
                 "metadata": metadatas[dataset_name] | row_metadata,
@@ -79,9 +83,9 @@ def create_document_jsons(adata_dict):
         "%",
     )
 
-    print("celltypes", len(list(celltypes.keys())), list(celltypes.keys()))
+    # print("celltypes", len(list(celltypes.keys())), list(celltypes.keys()))
 
-    print("example document")
-    print(documents[0])
+    # print("example document")
+    # print(documents[0])
 
     return documents

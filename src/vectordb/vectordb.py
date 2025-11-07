@@ -101,7 +101,7 @@ class VectorDB:
         # Build stable string IDs; metadata carries both pubmed_id and segment number
         ids = [f"{metadata.pubmed_id}:{i}" for i in range(n_segments)]
         metadata_ = [{**base_md, "segment": i} for i in range(n_segments)]
-        print(vectors.shape)
+        # print(vectors.shape)
         embeddings = vectors.tolist()
 
         # Use upsert so re-running doesn't raise on existing IDs
@@ -135,24 +135,16 @@ class VectorDB:
         )
 
     def add_blood_text_data_bulk(self, metadatas: list[dict[str, str]], bodies: list[str]) -> None:
-        # embeddable_data = f"""
-        #                     Metadata: {str(metadata)}
-        #                     Data: {body}
-        #                     """
         ids = []
         embeddings = []
         segments = []
         for id_offset, (metadata, body) in tqdm(list(enumerate(zip(metadatas, bodies))), desc="Generating embeddings"):
             embeddable_data = str(metadata)
-            # print("embeddable_data", len(embeddable_data))
+            id = str(hash(embeddable_data) + id_offset)
             _, vectors = self.embedder.embed_text(text=embeddable_data)
-            # print("vectors", vectors.shape)
             vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
-            # n_segments = vectors.shape[0]
 
-            # ids = [str(hash(segment)) for segment in segments]
-            # embeddings = vectors.tolist()
-            ids += [str(hash(embeddable_data) + id_offset)]
+            ids += [id]
             embeddings += [vectors.mean(axis=-2)]
             segments += [body]
 

@@ -12,7 +12,15 @@ pip install IPython
 
 # Run preprocessing
 python src/run_all.py
-# Build index
+
+# Build index with articles
 cd scripts
 python generate_vector_database.py
+cd ..
+
+# Add dataset entries to index
+cd src
+cd bloodtextdata
+python add_datasets_to_database.py
+cd ..
 cd ..
