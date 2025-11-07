@@ -26,7 +26,7 @@ This repository uses **conda + conda-lock** for a fully reproducible environment
 
 ### 1. Choose your tool
 
-You can use either **conda** or the faster alternative **micromamba**.
+You can use either **conda** or the faster alternative **micromamba**. For windows users there is an install script.
 
 ### 2. Create the environment
 
