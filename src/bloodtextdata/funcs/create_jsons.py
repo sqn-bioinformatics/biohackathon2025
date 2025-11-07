@@ -3,6 +3,8 @@ import json
 import numpy as np
 from tqdm import tqdm
 
+from dataset_metadatas import metadatas
+
 
 def create_document_jsons(adata_dict):
     documents = []
@@ -33,7 +35,7 @@ def create_document_jsons(adata_dict):
             row_metadata["type"] = "dataset"
             row_metadata["dataset_name"] = dataset_name
             row_metadata["dataset_description"] = (
-                "This is a row from a dataset about Celltypes, their correpsonding lineages "
+                "This is a row from a dataset about Celltypes, their corresponding lineages "
                 "and their corresponding gene counts. "
             )
             # TODO: Use Lornas mappings to convert the celltype to synonims and ontologies and add these to the meta data
@@ -60,18 +62,10 @@ def create_document_jsons(adata_dict):
             # license = json_data.get("license") or "",
             # mesh_terms = ",".join(mesh_terms),
 
+            metadata = metadatas[dataset_name]
+            metadata["dataset_meta"] = row_metadata
             document = {
-                "metadata": {
-                    "pubmed_id": None,
-                    "pmc_id": None,
-                    "doi": None,
-                    "title": None,
-                    "authors": None,
-                    "year": None,
-                    "license": None,
-                    "mesh_terms": None,
-                    "dataset_meta": row_metadata,
-                },
+                "metadata": metadata,
                 "body": json.dumps(row_genes),
             }
             documents.append(document)

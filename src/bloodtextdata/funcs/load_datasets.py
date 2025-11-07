@@ -1,5 +1,6 @@
 import sys
 from importlib import resources
+from os.path import dirname, join
 
 import scanpy as sc
 import torch
@@ -23,7 +24,8 @@ sys.path.insert(0, "../")
 
 
 def load_datasets():
-    data_folder = resources.files("hpa_embeddings") / "data"
+    # data_folder = resources.files("hpa_embeddings") / "data"
+    data_folder = join(dirname(dirname(dirname(dirname(__file__)))), "data")
     adata_dict = {}
     for dset in [
         "251020_blood_atlas.h5ad",
@@ -33,7 +35,7 @@ def load_datasets():
     ]:
         adata = sc.read_h5ad(
             # "/Users/vedran/Downloads/251020_blood_atlas.h5ad"
-            data_folder / dset
+            join(data_folder, dset)
         )
         cell_type_key = "cell_type"
         assert cell_type_key in adata.obs

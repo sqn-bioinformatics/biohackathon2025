@@ -8,8 +8,8 @@ import torch
 from tqdm import tqdm
 from vectordb import VectorDB
 
-from hpa_embeddings.funcs.create_jsons import create_document_jsons
-from hpa_embeddings.funcs.load_datasets import load_datasets
+from bloodtextdata.funcs.create_jsons import create_document_jsons
+from bloodtextdata.funcs.load_datasets import load_datasets
 
 print(torch.__version__)
 

@@ -108,23 +108,29 @@ class VectorDB:
         )
 
     def add_blood_text_data(self, metadata: dict[str, str], body: str) -> None:
-        payload = f"""
-        Metadata: {str(metadata)}
-        Data: {body}
-        """
-        segments, vectors = self.embedder.embed_text(text=body)
+        # embeddable_data = f"""
+        #                     Metadata: {str(metadata)}
+        #                     Data: {body}
+        #                     """
+        embeddable_data = str(metadata)
+        # print("embeddable_data", len(embeddable_data))
+        _, vectors = self.embedder.embed_text(text=embeddable_data)
+        # print("vectors", vectors.shape)
         vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
-        n_segments = vectors.shape[0]
+        # n_segments = vectors.shape[0]
 
-        ids = [str(hash(segment)) for segment in segments]
-        embeddings = vectors.tolist()
+        # ids = [str(hash(segment)) for segment in segments]
+        # embeddings = vectors.tolist()
+        ids = [str(hash(embeddable_data))]
+        embeddings = [vectors.mean(axis=-2)]
+        segments = [body]
 
-        self.blood_text_data.add(
-            ids=ids,
-            embeddings=embeddings,
-            metadatas=[metadata] * len(ids),
-            documents=segments,
-        )
+        # self.blood_text_data.add(
+        #     ids=ids,
+        #     embeddings=embeddings,
+        #     metadatas=[metadata] * len(ids),
+        #     documents=segments,
+        # )
 
     def get_article_vector(
         self, pubmed_id: int, segment_number: int
