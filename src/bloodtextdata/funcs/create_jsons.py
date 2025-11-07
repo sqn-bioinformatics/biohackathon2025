@@ -3,7 +3,7 @@ import json
 import numpy as np
 from tqdm import tqdm
 
-from dataset_metadatas import metadatas
+from bloodtextdata.funcs.dataset_metadatas import metadatas
 
 
 def create_document_jsons(adata_dict):
@@ -38,6 +38,7 @@ def create_document_jsons(adata_dict):
                 "This is a row from a dataset about Celltypes, their corresponding lineages "
                 "and their corresponding gene counts. "
             )
+
             # TODO: Use Lornas mappings to convert the celltype to synonims and ontologies and add these to the meta data
             # row_metadata["meshterms"] =
             # row_metadata["ontology_tree"] =
@@ -62,10 +63,8 @@ def create_document_jsons(adata_dict):
             # license = json_data.get("license") or "",
             # mesh_terms = ",".join(mesh_terms),
 
-            metadata = metadatas[dataset_name]
-            metadata["dataset_meta"] = row_metadata
             document = {
-                "metadata": metadata,
+                "metadata": metadatas[dataset_name] | row_metadata,
                 "body": json.dumps(row_genes),
             }
             documents.append(document)

@@ -33,8 +33,11 @@ vdb = VectorDB()
 adata_dict, gene_col = load_datasets()
 documents = create_document_jsons(adata_dict)
 
-for doc in tqdm(documents):
-    vdb.add_blood_text_data(metadata=doc["metadata"]["dataset_meta"], body=doc["body"])
+# for doc in tqdm(documents):
+#     vdb.add_blood_text_data(metadata=doc["metadata"]["dataset_meta"], body=doc["body"])
+
+vdb.add_blood_text_data_bulk(metadatas=[doc["metadata"] for doc in documents],
+                             bodies=[doc["body"] for doc in documents])
 
 
 # TODO: drop percentage of genes that make up below a threshold percentage of the total gene counts

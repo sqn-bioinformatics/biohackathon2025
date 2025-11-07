@@ -36,3 +36,8 @@ metadatas = \
             "license": None
         }
     }
+
+for key in metadatas.keys():
+    for key2 in metadatas[key]:
+        if metadatas[key][key2] is None:
+            metadatas[key][key2] = "None"

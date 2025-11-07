@@ -7,6 +7,8 @@ from typing import Any, Iterable, Optional
 import chromadb
 import numpy as np
 from chromadb import QueryResult
+from tqdm import tqdm
+
 from embeddings import Embedder
 from pydantic import BaseModel
 
@@ -113,7 +115,7 @@ class VectorDB:
         #                     Data: {body}
         #                     """
         embeddable_data = str(metadata)
-        # print("embeddable_data", len(embeddable_data))
+        print("embeddable_data", len(embeddable_data))
         _, vectors = self.embedder.embed_text(text=embeddable_data)
         # print("vectors", vectors.shape)
         vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
@@ -125,12 +127,41 @@ class VectorDB:
         embeddings = [vectors.mean(axis=-2)]
         segments = [body]
 
-        # self.blood_text_data.add(
-        #     ids=ids,
-        #     embeddings=embeddings,
-        #     metadatas=[metadata] * len(ids),
-        #     documents=segments,
-        # )
+        self.blood_text_data.add(
+            ids=ids,
+            embeddings=embeddings,
+            metadatas=[metadata] * len(ids),
+            documents=segments,
+        )
+
+    def add_blood_text_data_bulk(self, metadatas: list[dict[str, str]], bodies: list[str]) -> None:
+        # embeddable_data = f"""
+        #                     Metadata: {str(metadata)}
+        #                     Data: {body}
+        #                     """
+        ids = []
+        embeddings = []
+        segments = []
+        for id_offset, (metadata, body) in tqdm(list(enumerate(zip(metadatas, bodies))), desc="Generating embeddings"):
+            embeddable_data = str(metadata)
+            # print("embeddable_data", len(embeddable_data))
+            _, vectors = self.embedder.embed_text(text=embeddable_data)
+            # print("vectors", vectors.shape)
+            vectors = self._ensure_2d(np.asarray(vectors, dtype=np.float32))
+            # n_segments = vectors.shape[0]
+
+            # ids = [str(hash(segment)) for segment in segments]
+            # embeddings = vectors.tolist()
+            ids += [str(hash(embeddable_data) + id_offset)]
+            embeddings += [vectors.mean(axis=-2)]
+            segments += [body]
+
+        self.blood_text_data.add(
+            ids=ids,
+            embeddings=embeddings,
+            metadatas=metadatas,
+            documents=segments,
+        )
 
     def get_article_vector(
         self, pubmed_id: int, segment_number: int
