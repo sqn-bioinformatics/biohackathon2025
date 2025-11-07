@@ -1,0 +1,561 @@
+{
+  "MAIT T-cell": [
+    {
+      "name": "Mucosal-Associated Invariant T Cells",
+      "numeric_uid": "2016683",
+      "exact_match": true,
+      "synonyms": [
+        "Mucosal-Associated Invariant T Cells",
+        "Mucosal Associated Invariant T Cells",
+        "Mucosal-Associated Invariant T Cell",
+        "Mucosal Associated Invariant T Cell",
+        "MAIT Cell",
+        "Cell, MAIT",
+        "Cells, MAIT",
+        "MAIT Cells"
+      ]
+    },
+    {
+      "name": "T-Lymphocytes",
+      "numeric_uid": "68013601",
+      "exact_match": false,
+      "synonyms": [
+        "T-Lymphocytes",
+        "T-Lymphocyte",
+        "T Lymphocytes",
+        "T Cell",
+        "Cells, T",
+        "Cell, T",
+        "T Cells",
+        "T Lymphocyte",
+        "Lymphocytes, T",
+        "Lymphocyte, T",
+        "Thymus-Dependent Lymphocytes",
+        "Lymphocytes, Thymus-Dependent",
+        "Lymphocyte, Thymus-Dependent",
+        "Thymus-Dependent Lymphocyte",
+        "Thymus Dependent Lymphocytes",
+        "T-Cells",
+        "T-Cell"
+      ]
+    }
+  ],
+  "NK-cell": [
+    {
+      "name": "Killer Cells, Natural",
+      "numeric_uid": "68007694",
+      "exact_match": false,
+      "synonyms": [
+        "Killer Cells, Natural",
+        "Natural Killer Cells",
+        "Cell, Natural Killer",
+        "Cells, Natural Killer",
+        "Killer Cell, Natural",
+        "Natural Killer Cell",
+        "NK Cells",
+        "Cell, NK",
+        "Cells, NK",
+        "NK Cell"
+      ]
+    }
+  ],
+  "regulatory T-cell": [
+    {
+      "name": "T-Lymphocytes, Regulatory",
+      "numeric_uid": "68050378",
+      "exact_match": true,
+      "synonyms": [
+        "T-Lymphocytes, Regulatory",
+        "T Lymphocytes, Regulatory",
+        "Regulatory T-Lymphocytes",
+        "Regulatory T Lymphocytes",
+        "Regulatory T Cell",
+        "Cell, Regulatory T",
+        "Cells, Regulatory T",
+        "Regulatory T Cells",
+        "T Cell, Regulatory",
+        "T Cells, Regulatory",
+        "Regulatory T-Lymphocyte",
+        "Regulatory T Lymphocyte",
+        "T-Lymphocyte, Regulatory",
+        "Treg Cell",
+        "Cells, Treg",
+        "Cell, Treg",
+        "Regulatory T-Cell",
+        "T-Cells, Regulatory",
+        "Regulatory T-Cells",
+        "Treg Cells",
+        "Tr1 Cells",
+        "Tr1 Cell",
+        "Cells, Tr1",
+        "Cell, Tr1",
+        "Th3 Cells",
+        "Cells, Th3",
+        "Cell, Th3",
+        "Th3 Cell",
+        "Suppressor T-Lymphocytes, Naturally-Occurring",
+        "Naturally-Occurring Suppressor T-Lymphocyte",
+        "Naturally-Occurring Suppressor T-Lymphocytes",
+        "Suppressor T-Lymphocyte, Naturally-Occurring",
+        "Suppressor T Lymphocytes, Naturally Occurring",
+        "Suppressor T-Cells, Naturally-Occurring",
+        "Naturally-Occurring Suppressor T-Cell",
+        "Naturally-Occurring Suppressor T-Cells",
+        "Suppressor T-Cell, Naturally-Occurring",
+        "Suppressor T Cells, Naturally Occurring",
+        "T-Cell, Naturally-Occurring Suppressor",
+        "T-Cells, Naturally-Occurring Suppressor"
+      ]
+    }
+  ],
+  "basophil": [
+    {
+      "name": "Basophils",
+      "numeric_uid": "68001491",
+      "exact_match": true,
+      "synonyms": [
+        "Basophils",
+        "Basophil"
+      ]
+    }
+  ],
+  "classical monocyte": [
+    {
+      "name": "Monocytes",
+      "numeric_uid": "68009000",
+      "exact_match": false,
+      "synonyms": [
+        "Monocytes",
+        "Monocyte"
+      ]
+    }
+  ],
+  "eosinophil": [
+    {
+      "name": "Eosinophils",
+      "numeric_uid": "68004804",
+      "exact_match": true,
+      "synonyms": [
+        "Eosinophils",
+        "Eosinophil"
+      ]
+    }
+  ],
+  "gamma-delta T-Cell Receptor": [
+    {
+      "name": "Receptors, Antigen, T-Cell, gamma-delta",
+      "numeric_uid": "68016692",
+      "exact_match": true,
+      "synonyms": [
+        "Receptors, Antigen, T-Cell, gamma-delta",
+        "Antigen Receptors, T-Cell, gamma-delta",
+        "Receptors, Antigen, T Cell, gamma delta",
+        "T-Cell Receptor, gamma-delta",
+        "gamma-delta T-Cell Receptor",
+        "T Cell Receptor, gamma delta",
+        "T-Cell Receptors, gamma-delta",
+        "gamma-delta T-Cell Receptors",
+        "TcR gamma-delta",
+        "gamma-delta, TcR",
+        "TcR gamma delta",
+        "T Cell Receptors, gamma delta",
+        "T-Cell Receptors delta-Chain",
+        "delta-Chain, T-Cell Receptors",
+        "T Cell Receptors delta Chain",
+        "Antigen T Cell Receptor, delta Chain",
+        "T-Cell Receptor delta-Chain",
+        "delta-Chain, T-Cell Receptor",
+        "T Cell Receptor delta Chain",
+        "Antigen T Cell Receptor, gamma Chain",
+        "T-Cell Receptor gamma-Chain",
+        "gamma-Chain, T-Cell Receptor",
+        "T Cell Receptor gamma Chain",
+        "T-Cell Receptors gamma-Chain",
+        "gamma-Chain, T-Cell Receptors",
+        "T Cell Receptors gamma Chain"
+      ]
+    }
+  ],
+  "intermediate monocyte": [
+    {
+      "name": "Monocytes",
+      "numeric_uid": "68009000",
+      "exact_match": false,
+      "synonyms": [
+        "Monocytes",
+        "Monocyte"
+      ]
+    }
+  ],
+  "memory B-cell": [
+    {
+      "name": "Memory B Cells",
+      "numeric_uid": "2101254",
+      "exact_match": false,
+      "synonyms": [
+        "Memory B Cells",
+        "B Cell, Memory",
+        "Memory B Cell",
+        "Memory B-Lymphocytes",
+        "B-Lymphocyte, Memory",
+        "B-Lymphocytes, Memory",
+        "Memory B-Lymphocyte",
+        "Memory B Lymphocytes"
+      ]
+    }
+  ],
+  "memory CD4 T-cell": [
+    {
+      "name": "CD4-Positive T-Lymphocytes",
+      "numeric_uid": "68015496",
+      "exact_match": true,
+      "synonyms": [
+        "CD4-Positive T-Lymphocytes",
+        "CD4-Positive T-Lymphocyte",
+        "CD4 Positive T Lymphocytes",
+        "T-Lymphocyte, CD4-Positive",
+        "T-Lymphocytes, CD4-Positive",
+        "T4 Cells",
+        "T4 Cell",
+        "T4 Lymphocytes",
+        "T4 Lymphocyte",
+        "CD4-Positive Lymphocytes",
+        "CD4-Positive Lymphocyte",
+        "Lymphocyte, CD4-Positive",
+        "Lymphocytes, CD4-Positive"
+      ]
+    },
+    {
+      "name": "Memory",
+      "numeric_uid": "68008568",
+      "exact_match": false,
+      "synonyms": [
+        "Memory"
+      ]
+    },
+    {
+      "name": "T-Lymphocytes",
+      "numeric_uid": "68013601",
+      "exact_match": false,
+      "synonyms": [
+        "T-Lymphocytes",
+        "T-Lymphocyte",
+        "T Lymphocytes",
+        "T Cell",
+        "Cells, T",
+        "Cell, T",
+        "T Cells",
+        "T Lymphocyte",
+        "Lymphocytes, T",
+        "Lymphocyte, T",
+        "Thymus-Dependent Lymphocytes",
+        "Lymphocytes, Thymus-Dependent",
+        "Lymphocyte, Thymus-Dependent",
+        "Thymus-Dependent Lymphocyte",
+        "Thymus Dependent Lymphocytes",
+        "T-Cells",
+        "T-Cell"
+      ]
+    }
+  ],
+  "memory CD8 T-cell": [
+    {
+      "name": "CD8-Positive T-Lymphocytes",
+      "numeric_uid": "68018414",
+      "exact_match": true,
+      "synonyms": [
+        "CD8-Positive T-Lymphocytes",
+        "CD8-Positive T-Lymphocyte",
+        "CD8 Positive T Lymphocytes",
+        "T-Lymphocyte, CD8-Positive",
+        "T-Lymphocytes, CD8-Positive",
+        "CD8-Positive Lymphocytes",
+        "CD8-Positive Lymphocyte",
+        "CD8 Positive Lymphocytes",
+        "Lymphocyte, CD8-Positive",
+        "Lymphocytes, CD8-Positive",
+        "T8 Cells",
+        "Cells, T8",
+        "Cell, T8",
+        "T8 Cell",
+        "T8 Lymphocytes",
+        "Lymphocytes, T8",
+        "Lymphocyte, T8",
+        "T8 Lymphocyte",
+        "Suppressor T-Lymphocytes, CD8-Positive",
+        "CD8-Positive Suppressor T-Lymphocyte",
+        "CD8-Positive Suppressor T-Lymphocytes",
+        "Suppressor T-Lymphocyte, CD8-Positive",
+        "Suppressor T Lymphocytes, CD8 Positive",
+        "T-Lymphocyte, CD8-Positive Suppressor",
+        "T-Lymphocytes, CD8-Positive Suppressor",
+        "Suppressor T-Cells, CD8-Positive",
+        "CD8-Positive Suppressor T-Cell",
+        "CD8-Positive Suppressor T-Cells",
+        "Suppressor T-Cell, CD8-Positive",
+        "Suppressor T Cells, CD8 Positive",
+        "T-Cell, CD8-Positive Suppressor",
+        "T-Cells, CD8-Positive Suppressor"
+      ]
+    },
+    {
+      "name": "Memory",
+      "numeric_uid": "68008568",
+      "exact_match": false,
+      "synonyms": [
+        "Memory"
+      ]
+    },
+    {
+      "name": "T-Lymphocytes",
+      "numeric_uid": "68013601",
+      "exact_match": false,
+      "synonyms": [
+        "T-Lymphocytes",
+        "T-Lymphocyte",
+        "T Lymphocytes",
+        "T Cell",
+        "Cells, T",
+        "Cell, T",
+        "T Cells",
+        "T Lymphocyte",
+        "Lymphocytes, T",
+        "Lymphocyte, T",
+        "Thymus-Dependent Lymphocytes",
+        "Lymphocytes, Thymus-Dependent",
+        "Lymphocyte, Thymus-Dependent",
+        "Thymus-Dependent Lymphocyte",
+        "Thymus Dependent Lymphocytes",
+        "T-Cells",
+        "T-Cell"
+      ]
+    }
+  ],
+  "naive B-cell": [
+    {
+      "name": "B-Lymphocytes",
+      "numeric_uid": "68001402",
+      "exact_match": false,
+      "synonyms": [
+        "B-Lymphocytes",
+        "B Lymphocytes",
+        "B-Cells, Lymphocyte",
+        "B-Cell, Lymphocyte",
+        "B Cells, Lymphocyte",
+        "Lymphocyte B-Cell",
+        "Lymphocyte B-Cells",
+        "B-Lymphocyte",
+        "B Lymphocyte",
+        "Bursa-Dependent Lymphocytes",
+        "Bursa-Dependent Lymphocyte",
+        "Bursa Dependent Lymphocytes",
+        "Lymphocyte, Bursa-Dependent",
+        "Lymphocytes, Bursa-Dependent"
+      ]
+    }
+  ],
+  "naive CD4 T-cell": [
+    {
+      "name": "CD4-Positive T-Lymphocytes",
+      "numeric_uid": "68015496",
+      "exact_match": true,
+      "synonyms": [
+        "CD4-Positive T-Lymphocytes",
+        "CD4-Positive T-Lymphocyte",
+        "CD4 Positive T Lymphocytes",
+        "T-Lymphocyte, CD4-Positive",
+        "T-Lymphocytes, CD4-Positive",
+        "T4 Cells",
+        "T4 Cell",
+        "T4 Lymphocytes",
+        "T4 Lymphocyte",
+        "CD4-Positive Lymphocytes",
+        "CD4-Positive Lymphocyte",
+        "Lymphocyte, CD4-Positive",
+        "Lymphocytes, CD4-Positive"
+      ]
+    },
+    {
+      "name": "T-Lymphocytes",
+      "numeric_uid": "68013601",
+      "exact_match": false,
+      "synonyms": [
+        "T-Lymphocytes",
+        "T-Lymphocyte",
+        "T Lymphocytes",
+        "T Cell",
+        "Cells, T",
+        "Cell, T",
+        "T Cells",
+        "T Lymphocyte",
+        "Lymphocytes, T",
+        "Lymphocyte, T",
+        "Thymus-Dependent Lymphocytes",
+        "Lymphocytes, Thymus-Dependent",
+        "Lymphocyte, Thymus-Dependent",
+        "Thymus-Dependent Lymphocyte",
+        "Thymus Dependent Lymphocytes",
+        "T-Cells",
+        "T-Cell"
+      ]
+    }
+  ],
+  "naive CD8 T-cell": [
+    {
+      "name": "CD8-Positive T-Lymphocytes",
+      "numeric_uid": "68018414",
+      "exact_match": true,
+      "synonyms": [
+        "CD8-Positive T-Lymphocytes",
+        "CD8-Positive T-Lymphocyte",
+        "CD8 Positive T Lymphocytes",
+        "T-Lymphocyte, CD8-Positive",
+        "T-Lymphocytes, CD8-Positive",
+        "CD8-Positive Lymphocytes",
+        "CD8-Positive Lymphocyte",
+        "CD8 Positive Lymphocytes",
+        "Lymphocyte, CD8-Positive",
+        "Lymphocytes, CD8-Positive",
+        "T8 Cells",
+        "Cells, T8",
+        "Cell, T8",
+        "T8 Cell",
+        "T8 Lymphocytes",
+        "Lymphocytes, T8",
+        "Lymphocyte, T8",
+        "T8 Lymphocyte",
+        "Suppressor T-Lymphocytes, CD8-Positive",
+        "CD8-Positive Suppressor T-Lymphocyte",
+        "CD8-Positive Suppressor T-Lymphocytes",
+        "Suppressor T-Lymphocyte, CD8-Positive",
+        "Suppressor T Lymphocytes, CD8 Positive",
+        "T-Lymphocyte, CD8-Positive Suppressor",
+        "T-Lymphocytes, CD8-Positive Suppressor",
+        "Suppressor T-Cells, CD8-Positive",
+        "CD8-Positive Suppressor T-Cell",
+        "CD8-Positive Suppressor T-Cells",
+        "Suppressor T-Cell, CD8-Positive",
+        "Suppressor T Cells, CD8 Positive",
+        "T-Cell, CD8-Positive Suppressor",
+        "T-Cells, CD8-Positive Suppressor"
+      ]
+    },
+    {
+      "name": "T-Lymphocytes",
+      "numeric_uid": "68013601",
+      "exact_match": false,
+      "synonyms": [
+        "T-Lymphocytes",
+        "T-Lymphocyte",
+        "T Lymphocytes",
+        "T Cell",
+        "Cells, T",
+        "Cell, T",
+        "T Cells",
+        "T Lymphocyte",
+        "Lymphocytes, T",
+        "Lymphocyte, T",
+        "Thymus-Dependent Lymphocytes",
+        "Lymphocytes, Thymus-Dependent",
+        "Lymphocyte, Thymus-Dependent",
+        "Thymus-Dependent Lymphocyte",
+        "Thymus Dependent Lymphocytes",
+        "T-Cells",
+        "T-Cell"
+      ]
+    }
+  ],
+  "neutrophil": [
+    {
+      "name": "Neutrophils",
+      "numeric_uid": "68009504",
+      "exact_match": true,
+      "synonyms": [
+        "Neutrophils",
+        "Neutrophil",
+        "Polymorphonuclear Neutrophils",
+        "Neutrophil, Polymorphonuclear",
+        "Polymorphonuclear Neutrophil",
+        "Leukocytes, Polymorphonuclear",
+        "Leukocyte, Polymorphonuclear",
+        "Polymorphonuclear Leukocyte",
+        "Polymorphonuclear Leukocytes",
+        "LE Cells",
+        "Cell, LE",
+        "LE Cell",
+        "Neutrophil Band Cells",
+        "Band Cell, Neutrophil",
+        "Neutrophil Band Cell"
+      ]
+    }
+  ],
+  "non-classical monocyte": [
+    {
+      "name": "Monocytes",
+      "numeric_uid": "68009000",
+      "exact_match": false,
+      "synonyms": [
+        "Monocytes",
+        "Monocyte"
+      ]
+    }
+  ],
+  "dendritic-cell": [
+    {
+      "name": "Dendritic Cells",
+      "numeric_uid": "68003713",
+      "exact_match": false,
+      "synonyms": [
+        "Dendritic Cells",
+        "Cell, Dendritic",
+        "Cells, Dendritic",
+        "Dendritic Cell",
+        "Veiled Cells",
+        "Cells, Veiled",
+        "Cell, Veiled",
+        "Veiled Cell",
+        "Interdigitating Cells",
+        "Cell, Interdigitating",
+        "Cells, Interdigitating",
+        "Interdigitating Cell",
+        "Dendritic Cells, Interdigitating",
+        "Cell, Interdigitating Dendritic",
+        "Cells, Interdigitating Dendritic",
+        "Dendritic Cell, Interdigitating",
+        "Interdigitating Dendritic Cell",
+        "Interdigitating Dendritic Cells",
+        "Plasmacytoid Dendritic Cells",
+        "Cell, Plasmacytoid Dendritic",
+        "Cells, Plasmacytoid Dendritic",
+        "Dendritic Cell, Plasmacytoid",
+        "Plasmacytoid Dendritic Cell",
+        "Dendritic Cells, Plasmacytoid",
+        "Interstitial Dendritic Cells",
+        "Cell, Interstitial Dendritic",
+        "Cells, Interstitial Dendritic",
+        "Dendritic Cell, Interstitial",
+        "Interstitial Dendritic Cell",
+        "Dendritic Cells, Interstitial"
+      ]
+    },
+    {
+      "name": "Antigen-Presenting Cells",
+      "numeric_uid": "68000938",
+      "exact_match": false,
+      "synonyms": [
+        "Antigen-Presenting Cells",
+        "Antigen Presenting Cells",
+        "Accessory Cell, Immunologic",
+        "Accessory Cells, Immunologic",
+        "Cell, Immunologic Accessory",
+        "Cells, Immunologic Accessory",
+        "Immunologic Accessory Cell",
+        "Antigen-Presenting Cell",
+        "Antigen Presenting Cell",
+        "Cell, Antigen-Presenting",
+        "Cells, Antigen-Presenting",
+        "Immunologic Accessory Cells"
+      ]
+    }
+  ]
+}
