@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chromadb": {
+      "command": "python",
+      "args": [
+        "/absolute/path/to/chromadb_mcp_server.py"
+      ],
+      "env": {}
+    }
+  }
+}
